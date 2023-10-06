@@ -1,13 +1,16 @@
 package com.helppets.app.daos;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import org.slf4j.Logger;
 
 import java.sql.*;
+import java.util.List;
 import java.util.Properties;
 
 abstract public class DAO {
     private Connection connection;
     private final Properties properties = new Properties();
+    protected Logger logger;
 
     private final Dotenv dotenv = Dotenv.configure()
             .directory("/private/dotenv")
@@ -23,8 +26,15 @@ abstract public class DAO {
         try {
             String databaseHost = dotenv.get("DATABASE_HOST");
             String databaseName = dotenv.get("DATABASE_NAME");
+            String schemaName = dotenv.get("DATABASE_SCHEMA");
 
-            String url = "jdbc:postgresql://".concat(databaseHost).concat("/").concat(databaseName);
+            String url = "jdbc:postgresql://"
+                    .concat(databaseHost)
+                    .concat("/")
+                    .concat(databaseName)
+                    .concat("?currentSchema=")
+                    .concat(schemaName);
+
             connection = DriverManager.getConnection(url, properties);
         }
         catch (Exception e) {
@@ -55,4 +65,10 @@ abstract public class DAO {
                 ResultSet.CONCUR_UPDATABLE);
     }
 
+    public abstract Object insert(Object object) throws SQLException;
+    public abstract Object getById(int id) throws SQLException;
+    public abstract Object deleteById(int id) throws SQLException;
+    public abstract List<?> selectAllWithLimiter(int limiter) throws SQLException;
+    public abstract Object updateById(int id, Object object) throws SQLException;
+    protected abstract Object parseRowToDto(ResultSet resultSet) throws SQLException;
 }
