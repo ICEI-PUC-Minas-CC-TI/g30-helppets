@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help-pet</title>
+    <link href="./css/style_home.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div class="tela">
+        <header class="voltar">
+            <div>
+                <a a link href='#' onclick="PassarParametro(1)" class="pgn_inicial">Calendário</a>
+                <a a link href="#" onclick="PassarParametro(2)" class="pgn_inicial">Adicionar pets</a>
+            </div>
+            <div class="logof">
+                <a href="index.html" class="pgn_inicial">logoff</a>
+            </div>
+        </header>
+        <div class="mid">
+            <div class="BarraL">
+                <div class="fundo BarraL_esquerda">
+                    <label>Trocar</label>
+                    <label>pet</label>
+                    <div id="lista" class="lista_pets">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="barra_meio">
+                <div class="">
+                    <img class="padrao" src="" id="foto_pet">
+                </div>
+                <div class="Barra">
+                    <div class="fundo BarraL_meio">
+                        <p class="nome_pet" type="text" id="nome">Nome do pet</p>
+                        <div> 
+                            <a href="#" class="pgn_inicial" onclick="PassarParametro(3)">Adicionar Vacinas</a>
+                        </div>
+                    </div>
+                    <div class="aaa">
+                        <p>Vacina Pendente</p>
+                        <p>Vacina tomada</p>
+                    </div>
+                    <div class="vacs">
+                        <div id="vact" class="itens">
+
+                        </div>
+                        <div id="vacp" class="itens">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="BarraL">
+                <div class="fundo BarraL_esquerda">
+                    <label>Excluir pet</label>
+                    <div id="lista2" class="lista_pets">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="voltar">
+                <a a link href='' class="pgn_inicial">Contato : Help-pet@gmail.com</a>
+            </div>
+        </footer>
+    </div>
+    <script src="./js/scripthome.js"></script>
+</body>
+
+</html>
