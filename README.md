@@ -1,18 +1,18 @@
-# [Nome do projeto]
+# Help-Pet
 
-[Escreva um ou dois  parágrafo resumindo o objetivo do seu projeto.]
+Nosso site auxilia nos cuidados em relação à saúde e bem estar de animais de estimação, através da adição e organização de vacinas em um só lugar e informações sobre cuidados com os pets.
 
 ## Alunos integrantes da equipe
 
-* [Nome completo do aluno 1]
-* [Nome completo do aluno 2]
-* [Nome completo do aluno 3]
-* [Nome completo do aluno 4]
+* Arthur Braga de Campos Tinoco 
+* Júlia Rodrigues Vasconcellos Melo
+* Mateus Henrique Duarte Silva
+* Matheus Rodrigues Bastos Aguiar
 
 ## Professores responsáveis
 
-* [Nome completo do professor 1]
-* [Nome completo do professor 2]
+* Amália Soares Vieira de Vasconcelos 
+* Wladmir Cardoso Brandão 
 
 ## Instruções de utilização
 
