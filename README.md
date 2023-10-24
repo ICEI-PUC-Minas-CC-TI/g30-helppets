@@ -1,18 +1,18 @@
-# [Nome do projeto]
+# Help pet
 
-[Escreva um ou dois  parágrafo resumindo o objetivo do seu projeto.]
+Nosso software auxilia na organização da rotina e no bem-estar dos animais de estimação, através de programação de atividades diárias e calendário de vacinação.
 
 ## Alunos integrantes da equipe
 
-* [Nome completo do aluno 1]
-* [Nome completo do aluno 2]
-* [Nome completo do aluno 3]
-* [Nome completo do aluno 4]
+* Arthur Braga de Campos Tinoco
+* Júlia Rodrigues Vasconcellos Melo
+* Mateus Henrique Duarte Silva
+* Matheus Rodrigues Bastos Aguiar
 
 ## Professores responsáveis
 
-* [Nome completo do professor 1]
-* [Nome completo do professor 2]
+* Amália Soares Vieira de Vaconcelos
+* Wladmir Cardoso Brandão
 
 ## Instruções de utilização
 
