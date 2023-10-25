@@ -1,0 +1,182 @@
+body {
+    min-height: auto;
+    background: url('../img/Wallpaper\ pets.webp') no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    padding: 0px;
+    margin: 0px;
+    height: 100%;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+}
+.aaa{
+    display: flex;
+    width: 100%;
+    height: auto;
+    justify-content: space-around
+}
+.tela {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.vacs {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    overflow: hidden; 
+}
+
+.itens {
+    padding: 5px;
+    max-height: 100%;
+    overflow: auto;
+    color: #1ec3d5
+}
+.bbb{
+    background-color: #412c2fbb;
+    padding: 3px;
+    border-radius: 15px;
+    overflow-wrap: break-word;
+}
+.itens_lista{
+    
+}
+
+.pgn_inicial {
+    text-decoration: none;
+    margin-left: 10px;
+    color: #e1770a;
+}
+
+.voltar {
+    background: #ffb6c1bb;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 50px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-bottom: solid 2px lightgray;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+.logof {
+    padding-right: 10px;
+}
+
+.cadastro {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: auto;
+}
+
+.BarraL {
+    padding: 5px;
+    display: flex;
+    border-style: groove;
+    background-color: #ffb6c1bb;
+    flex-direction: column;
+    align-items: center;
+    height: 60vh;
+    min-width: 15vw;
+
+
+}
+
+.fundo BarraL_meio {
+    overflow: auto;
+}
+
+.Barra {
+    padding: 5px;
+    display: flex;
+    border-style: groove;
+    background-color: #ffb6c1bb;
+    flex-direction: column;
+    align-items: center;
+    height: 55vh;
+    min-width: 60%;
+}
+
+.padrao {
+    border-radius: 50%;
+    background-color: gray;
+    height: 150px;
+    width: 150px;
+}
+
+.fundo.BarraL_esquerda {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+
+}
+
+.fundo.BarraL_meio {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.fundo.BarraL_direita {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.lista_pets {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+ul {
+    padding: 0%;
+}
+
+.nome_pet {
+    text-align: center;
+    height: auto;
+    width: auto;
+    margin: 5px;
+}
+
+.mid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.barra_meio {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+footer {
+
+    width: 100%;
+    color: white;
+    text-align: center;
+}
