@@ -118,4 +118,28 @@ public class UsuarioDAO extends DAO {
 
         return usuarioModel;
     }
+
+    public UsuarioModel getByEmailAndPassword(String email, byte[] password) throws SQLException {
+        makeConnection();
+
+        PreparedStatement statement = returnPreparedStatement("SELECT * FROM USUARIO WHERE email=? AND senha=?");
+
+        statement.setString(1, email);
+        statement.setBytes(2, password);
+
+        statement.executeQuery();
+
+        ResultSet resultSet = statement.executeQuery();
+
+        UsuarioModel user = null;
+
+        if (resultSet.next()) {
+            user = parseRowToDto(resultSet);
+        }
+
+        closeConnection();
+        resultSet.close();
+
+        return user;
+    }
 }
