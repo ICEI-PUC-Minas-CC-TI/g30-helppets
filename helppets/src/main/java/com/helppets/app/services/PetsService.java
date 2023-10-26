@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class PetsService {
+    private final String USER_ID = "usuarioId";
     private final AuthUtils authUtils = new AuthUtils();
     private final PetsDAO petsDAO = new PetsDAO();
     private final Logger logger = LoggerFactory.getLogger(PetsService.class);
@@ -35,7 +36,7 @@ public class PetsService {
             DecodedJWT decodedJWT = authUtils.decodeJWT(jwtAuth);
             Map<String, Object> jwtData = authUtils.getPayloadJwt(decodedJWT);
 
-            PetsModel pet = convertMapToPetModel(body, (Integer) jwtData.get("usuarioId"));
+            PetsModel pet = convertMapToPetModel(body, (Integer) jwtData.get(USER_ID));
 
             petsDAO.insert(pet);
 
@@ -61,7 +62,7 @@ public class PetsService {
             DecodedJWT decodedJWT = authUtils.decodeJWT(jwtAuth);
             Map<String, Object> jwtData = authUtils.getPayloadJwt(decodedJWT);
 
-            List<PetsModel> pets = petsDAO.selectByUserIdWithLimiter((Integer) jwtData.get("usuarioId"), limiter);
+            List<PetsModel> pets = petsDAO.selectByUserIdWithLimiter((Integer) jwtData.get(USER_ID), limiter);
 
             Map<String, Object> toReturn = new HashMap<>();
 
@@ -71,6 +72,29 @@ public class PetsService {
         }
         catch (Exception e) {
             logger.error("listRegisteredAnimalsWithLimit({}, {}) - Exception: {}", jwtAuth, limiter, e.getMessage());
+            throw e;
+        }
+    }
+
+    public Map<String, Object> deleteById(String jwtAuth, int id) throws SQLException, InvalidObjectException, JsonProcessingException {
+        try {
+            if (!authUtils.isJwtValid(jwtAuth)) {
+                throw new InvalidObjectException("Invalid jwt");
+            }
+
+            DecodedJWT decodedJWT = authUtils.decodeJWT(jwtAuth);
+            Map<String, Object> jwtData = authUtils.getPayloadJwt(decodedJWT);
+
+            PetsModel pet = petsDAO.deleteByIdAndUserId((Integer) jwtData.get(USER_ID),id);
+
+            Map<String, Object> toReturn = new HashMap<>();
+
+            toReturn.put("deleted", pet);
+
+            return toReturn;
+        }
+        catch (Exception e) {
+            logger.error("deleteById({}, {}) - Exception: {}", jwtAuth, id, e.getMessage());
             throw e;
         }
     }

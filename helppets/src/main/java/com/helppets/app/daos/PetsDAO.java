@@ -37,7 +37,7 @@ public class PetsDAO extends DAO {
     public PetsModel getById(int id) throws SQLException {
         makeConnection();
 
-        ResultSet resultSet = returnStatement().executeQuery("SELECT * FROM USUARIO WHERE petsid=" + id);
+        ResultSet resultSet = returnStatement().executeQuery("SELECT * FROM pets WHERE petsid=" + id);
 
         PetsModel pet = null;
 
@@ -138,4 +138,15 @@ public class PetsDAO extends DAO {
         return pets;
     }
 
+    public PetsModel deleteByIdAndUserId(int userId, int id) throws SQLException {
+        PetsModel pet = getById(id);
+
+        makeConnection();
+
+        int resultSet = returnStatement().executeUpdate("DELETE FROM pets WHERE usuario_usuarioid=" + userId + " AND petsId=" + id);
+
+        closeConnection();
+
+        return resultSet > 0 ? pet: null;
+    }
 }
