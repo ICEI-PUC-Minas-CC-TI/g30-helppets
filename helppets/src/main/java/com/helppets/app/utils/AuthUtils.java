@@ -133,4 +133,10 @@ public class AuthUtils {
             return null;
         }
     }
+
+    public Boolean isJwtValid(String jwt) {
+        DecodedJWT decodedJWT = decodeJWT(jwt);
+
+        return Objects.nonNull(decodedJWT) && decodedJWT.getExpiresAtAsInstant().compareTo(Instant.now()) >= 0;
+    }
 }
