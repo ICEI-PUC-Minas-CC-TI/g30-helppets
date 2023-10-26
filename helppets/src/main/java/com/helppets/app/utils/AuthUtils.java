@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +24,8 @@ import java.security.spec.EncodedKeySpec;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class AuthUtils {
@@ -30,7 +33,7 @@ public class AuthUtils {
     private final PrivateKey rsaPrivateKey;
     private final PublicKey rsaPublicKey;
 
-    private Logger logger;
+    private final Logger logger = LoggerFactory.getLogger(AuthUtils.class);
     private final ObjectMapper mapper = new ObjectMapper();
 
     public AuthUtils() throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {
@@ -41,8 +44,10 @@ public class AuthUtils {
 
             passwordSalt = dotenv.get("PASSWORD_SALT");
 
-            File privateKeyFile = new File("helppets/src/main/resources/private/rsaKeys/privateJwt.key");
-            File publicKeyFile = new File("helppets/src/main/resources/private/rsaKeys/publicJwt.key");
+            String userPath = System.getProperty("user.dir");
+
+            File privateKeyFile = new File(userPath.concat("/src/main/resources/private/rsaKeys/privateJwt.key"));
+            File publicKeyFile = new File(userPath.concat("/src/main/resources/private/rsaKeys/publicJwt.key"));
 
             byte[] privateKeyBytes = Files.readAllBytes(privateKeyFile.toPath());
             byte[] publicKeyBytes = Files.readAllBytes(publicKeyFile.toPath());
@@ -87,6 +92,7 @@ public class AuthUtils {
             return JWT.create()
                     .withPayload(payload)
                     .withIssuer("auth0")
+                    .withExpiresAt(Instant.now().plus(1, ChronoUnit.DAYS))
                     .sign(algorithm);
         }
         catch (Exception e) {
