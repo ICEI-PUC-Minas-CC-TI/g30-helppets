@@ -14,8 +14,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Map;
 
-import static spark.Spark.post;
-import static spark.Spark.get;
+import static spark.Spark.*;
 
 @Controller(prefix="/api/")
 public class ApiController extends GenericController {
@@ -93,5 +92,22 @@ public class ApiController extends GenericController {
                     return controllerMapper.writeValueAsString(returnError(e.getMessage()));
             }
         }));
+    }
+
+    @Route
+    public void deletePetById() {
+        delete(routePrefix.concat("pets/delete"), (request, response) -> {
+            try {
+                if (request.headers(AUTHORIZATION_HEADER).isEmpty()) {
+                    return controllerMapper.writeValueAsString(returnError("Invalid token"));
+                }
+
+                return controllerMapper.writeValueAsString(petsService.deleteById(request.headers(AUTHORIZATION_HEADER),
+                        Integer.parseInt(request.queryParams("id"))));
+            }
+            catch (Exception e) {
+                return controllerMapper.writeValueAsString(returnError(e.getMessage()));
+            }
+        });
     }
 }
