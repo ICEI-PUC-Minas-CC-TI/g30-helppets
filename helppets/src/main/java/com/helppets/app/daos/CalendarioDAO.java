@@ -57,11 +57,15 @@ public class CalendarioDAO extends DAO{
 
         makeConnection();
 
-        int resultSet = returnStatement().executeUpdate("DELETE FROM calendario WHERE eventoid=" + id);
+        ResultSet resultSet = returnStatement().executeQuery("DELETE FROM calendario WHERE eventoid=" + id + " RETURNING *");
+
+        if (resultSet.next()) {
+            calendario = parseRowToDto(resultSet);
+        }
 
         closeConnection();
 
-        return resultSet > 0 ? calendario: null;
+        return calendario;
     }
 
     @Override
@@ -88,15 +92,18 @@ public class CalendarioDAO extends DAO{
 
         CalendarioModel calendario = (CalendarioModel) object;
 
-        PreparedStatement statement = returnPreparedStatement("UPDATE calendario SET descricao=?, data=? WHERE eventoid=?");
+        PreparedStatement statement = returnPreparedStatement("UPDATE calendario SET descricao=?, data=? WHERE eventoid=? RETURNING *");
 
         statement.setString(1, calendario.getDescricao());
         statement.setDate(2, calendario.getData());
 
-        statement.executeUpdate();
-        closeConnection();
+        ResultSet resultSet = statement.executeQuery();
 
-        calendario = getById(id);
+        if (resultSet.next()) {
+            calendario = parseRowToDto(resultSet);
+        }
+
+        closeConnection();
 
         return calendario;
     }
