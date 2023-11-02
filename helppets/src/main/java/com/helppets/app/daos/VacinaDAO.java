@@ -3,6 +3,7 @@ package com.helppets.app.daos;
 import com.helppets.app.models.UsuarioModel;
 import com.helppets.app.models.VacinaModel;
 
+import javax.xml.transform.Result;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +21,7 @@ public class VacinaDAO extends DAO {
 
         VacinaModel vacina = (VacinaModel) object;
 
-        PreparedStatement statement = returnPreparedStatement("INSERT INTO vacina(nome, data, descricao, tomou, pets_petsid) VALUES(?, ?, ?, ?, ?)");
+        PreparedStatement statement = returnPreparedStatement("INSERT INTO vacina(nome, data, descricao, tomou, pets_petsid) VALUES(?, ?, ?, ?, ?) RETURNING *");
 
         statement.setString(1, vacina.getNome());
         statement.setDate(2, vacina.getData());
@@ -28,7 +29,11 @@ public class VacinaDAO extends DAO {
         statement.setInt(4, vacina.getTomou() ? 1 : 0);
         statement.setInt(5, vacina.getPets_petsId());
 
-        statement.executeUpdate();
+        ResultSet resultSet = statement.executeQuery();
+
+        if (resultSet.next()) {
+            vacina = parseRowToDto(resultSet);
+        }
 
         closeConnection();
 
@@ -59,11 +64,16 @@ public class VacinaDAO extends DAO {
 
         makeConnection();
 
-        int resultSet = returnStatement().executeUpdate("DELETE FROM vacina WHERE vacinaid=" + id);
+        ResultSet resultSet = returnStatement().executeQuery("DELETE FROM vacina WHERE vacinaid=" + id + " RETURNING *");
 
+        if (resultSet.next()) {
+            vacina = parseRowToDto(resultSet);
+        }
+
+        resultSet.close();
         closeConnection();
 
-        return resultSet > 0 ? vacina: null;
+        return vacina;
     }
 
     @Override
@@ -90,7 +100,7 @@ public class VacinaDAO extends DAO {
 
         VacinaModel vacina = (VacinaModel) object;
 
-        PreparedStatement statement = returnPreparedStatement("UPDATE vacina SET nome=?, data=?, descricao=?, tomou=? WHERE usuarioid=?");
+        PreparedStatement statement = returnPreparedStatement("UPDATE vacina SET nome=?, data=?, descricao=?, tomou=? WHERE usuarioid=? RETURNING *");
 
         statement.setString(1, vacina.getNome());
         statement.setDate(2, vacina.getData());
@@ -98,9 +108,11 @@ public class VacinaDAO extends DAO {
         statement.setBoolean(4, vacina.getTomou());
         statement.setInt(5, vacina.getPets_petsId());
 
-        statement.executeUpdate();
+        ResultSet resultSet = statement.executeQuery();
 
-        vacina = getById(id);
+        if (resultSet.next()) {
+            vacina = parseRowToDto(resultSet);
+        }
 
         return vacina;
     }

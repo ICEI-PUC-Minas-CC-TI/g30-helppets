@@ -1,5 +1,6 @@
 package com.helppets.app.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
@@ -10,5 +11,6 @@ public class PetsModel {
     private String nome;
     private String raca;
     private byte[] foto;
+    @JsonIgnore
     private Integer usuario_usuarioId;
 }

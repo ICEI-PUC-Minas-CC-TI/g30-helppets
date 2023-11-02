@@ -19,13 +19,17 @@ public class UsuarioDAO extends DAO {
 
         UsuarioModel user = (UsuarioModel) object;
 
-        PreparedStatement statement = returnPreparedStatement("INSERT INTO USUARIO(nome, email, senha) VALUES(?, ?, ?)");
+        PreparedStatement statement = returnPreparedStatement("INSERT INTO USUARIO(nome, email, senha) VALUES(?, ?, ?) RETURNING *");
 
         statement.setString(1, user.getNome());
         statement.setString(2, user.getEmail());
         statement.setBytes(3, user.getSenha());
 
-        statement.executeUpdate();
+        ResultSet resultSet = statement.executeQuery();
+
+        if (resultSet.next()) {
+            user = parseRowToDto(resultSet);
+        }
 
         closeConnection();
 
@@ -56,11 +60,15 @@ public class UsuarioDAO extends DAO {
 
         makeConnection();
 
-        int resultSet = returnStatement().executeUpdate("DELETE FROM USUARIO WHERE usuarioid=" + id);
+        ResultSet resultSet = returnStatement().executeQuery("DELETE FROM USUARIO WHERE usuarioid=" + id + " RETURNING *");
+
+        if (resultSet.next()) {
+            usuario = parseRowToDto(resultSet);
+        }
 
         closeConnection();
 
-        return resultSet > 0 ? usuario : null;
+        return usuario;
     }
 
     @Override
@@ -87,16 +95,21 @@ public class UsuarioDAO extends DAO {
 
         UsuarioModel usuario = (UsuarioModel) object;
 
-        PreparedStatement statement = returnPreparedStatement("UPDATE USUARIO SET nome=?, email=?, senha=? WHERE usuarioid=?");
+        PreparedStatement statement = returnPreparedStatement("UPDATE USUARIO SET nome=?, email=?, senha=? WHERE usuarioid=? RETURNING *");
 
         statement.setString(1, usuario.getNome());
         statement.setString(2, usuario.getEmail());
         statement.setBytes(3, usuario.getSenha());
         statement.setInt(4, id);
 
-        statement.executeUpdate();
+        ResultSet resultSet = statement.executeQuery();
 
-        usuario = (UsuarioModel) getById(id);
+        if (resultSet.next()) {
+            usuario = parseRowToDto(resultSet);
+        }
+
+        closeConnection();
+        resultSet.close();
 
         return usuario;
     }

@@ -19,14 +19,18 @@ public class PetsDAO extends DAO {
 
         PetsModel pet = (PetsModel) object;
 
-        PreparedStatement statement = returnPreparedStatement("INSERT INTO pets(nome, raca, foto, usuario_usuarioid) values(?, ?, ?, ?)");
+        PreparedStatement statement = returnPreparedStatement("INSERT INTO pets(nome, raca, foto, usuario_usuarioid) values(?, ?, ?, ?) RETURNING *");
 
         statement.setString(1, pet.getNome());
         statement.setString(2, pet.getRaca());
         statement.setBytes(3, pet.getFoto());
         statement.setInt(4, pet.getUsuario_usuarioId());
 
-        statement.executeUpdate();
+        ResultSet resultSet = statement.executeQuery();
+
+        if (resultSet.next()) {
+            pet = parseRowToDto(resultSet);
+        }
 
         closeConnection();
 
@@ -57,11 +61,15 @@ public class PetsDAO extends DAO {
 
         makeConnection();
 
-        int resultSet = returnStatement().executeUpdate("DELETE FROM pets WHERE petsId=" + id);
+        ResultSet resultSet = returnStatement().executeQuery("DELETE FROM pets WHERE petsId=" + id + " RETURNING *");
+
+        if (resultSet.next()) {
+            pet = parseRowToDto(resultSet);
+        }
 
         closeConnection();
 
-        return resultSet > 0 ? pet: null;
+        return pet;
     }
 
     @Override
@@ -88,16 +96,18 @@ public class PetsDAO extends DAO {
 
         PetsModel pet = (PetsModel) object;
 
-        PreparedStatement statement = returnPreparedStatement("UPDATE pet SET nome=?, raca=?, foto=? WHERE petsid=?");
+        PreparedStatement statement = returnPreparedStatement("UPDATE pet SET nome=?, raca=?, foto=? WHERE petsid=? RETURNING *");
 
         statement.setString(1, pet.getNome());
         statement.setString(2, pet.getRaca());
         statement.setBytes(3, pet.getFoto());
         statement.setInt(4, id);
 
-        statement.executeUpdate();
+        ResultSet resultSet = statement.executeQuery();
 
-        pet = (PetsModel) getById(id);
+        if (resultSet.next()) {
+            pet = parseRowToDto(resultSet);
+        }
 
         return pet;
     }
@@ -139,14 +149,18 @@ public class PetsDAO extends DAO {
     }
 
     public PetsModel deleteByIdAndUserId(int userId, int id) throws SQLException {
-        PetsModel pet = getById(id);
+        PetsModel pet = null;
 
         makeConnection();
 
-        int resultSet = returnStatement().executeUpdate("DELETE FROM pets WHERE usuario_usuarioid=" + userId + " AND petsId=" + id);
+        ResultSet resultSet = returnStatement().executeQuery("DELETE FROM pets WHERE usuario_usuarioid=" + userId + " AND petsId=" + id + " RETURNING *");
+
+        if (resultSet.next()) {
+            pet = parseRowToDto(resultSet);
+        }
 
         closeConnection();
 
-        return resultSet > 0 ? pet: null;
+        return pet;
     }
 }
