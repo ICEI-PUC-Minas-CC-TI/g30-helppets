@@ -31,6 +31,10 @@ public class AuthService {
                 throw new NullPointerException("User not found");
             }
 
+            if (!authUtils.validatePassword((String) body.get("senha"), user.getSenha())) {
+                throw new NullPointerException("Invalid password");
+            }
+
             Map<String, Object> tokenData = new HashMap<>();
 
             tokenData.put("usuarioId", user.getUsuarioId());

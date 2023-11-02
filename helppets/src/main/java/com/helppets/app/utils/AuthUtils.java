@@ -61,7 +61,7 @@ public class AuthUtils {
             rsaPublicKey = keyFactory.generatePublic(publicKeySpec);
         }
         catch (Exception e) {
-            Objects.requireNonNull(logger).error("AuthUtils() - Exception: {}", e.getMessage());
+           logger.error("AuthUtils() - Exception: {}", e.getMessage());
             throw e;
         }
     }
@@ -135,8 +135,14 @@ public class AuthUtils {
     }
 
     public Boolean isJwtValid(String jwt) {
-        DecodedJWT decodedJWT = decodeJWT(jwt);
+        try {
+            DecodedJWT decodedJWT = decodeJWT(jwt);
 
-        return Objects.nonNull(decodedJWT) && decodedJWT.getExpiresAtAsInstant().compareTo(Instant.now()) >= 0;
+            return Objects.nonNull(decodedJWT) && decodedJWT.getExpiresAtAsInstant().compareTo(Instant.now()) >= 0;
+        }
+        catch (Exception e) {
+            logger.error("isJwtValid({}) - Exception: {}", jwt, e.getMessage());
+            throw e;
+        }
     }
 }
