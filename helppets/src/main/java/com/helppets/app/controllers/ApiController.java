@@ -2,6 +2,7 @@ package com.helppets.app.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.helppets.app.services.AuthService;
+import com.helppets.app.services.CalendarioService;
 import com.helppets.app.services.PetsService;
 import com.helppets.app.services.VacinaService;
 import com.helppets.routerannotations.annotations.Controller;
@@ -22,6 +23,7 @@ public class ApiController extends GenericController {
     private final AuthService authService = new AuthService();
     private final PetsService petsService = new PetsService();
     private final VacinaService vacinaService = new VacinaService();
+    private final CalendarioService calendarioService = new CalendarioService();
 
     public ApiController(String prefix) throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {
         super(prefix);
@@ -149,5 +151,40 @@ public class ApiController extends GenericController {
                 return controllerMapper.writeValueAsString(returnError(e.getMessage()));
             }
         }));
+    }
+
+    @Route
+    public void insertEvent() {
+        post(routePrefix.concat("calendario/insert"), (request, response) -> {
+            try {
+                if (request.headers(AUTHORIZATION_HEADER).isEmpty()) {
+                    return controllerMapper.writeValueAsString(returnError("Invalid token"));
+                }
+
+                return controllerMapper.writeValueAsString(calendarioService.insertCalendario(request.headers(AUTHORIZATION_HEADER),
+                                                                                              controllerMapper.readValue(request.body(), Map.class)));
+            }
+            catch (Exception e) {
+                return controllerMapper.writeValueAsString(returnError(e.getMessage()));
+            }
+        });
+    }
+
+    @Route
+    public void listEvents() {
+        get(routePrefix.concat("calendario/list"), (request, response) -> {
+            try {
+                if (request.headers(AUTHORIZATION_HEADER).isEmpty()) {
+                    return controllerMapper.writeValueAsString(returnError("Invalid token"));
+                }
+
+                return controllerMapper.writeValueAsString(calendarioService.getCalendariosByUserId(request.headers(AUTHORIZATION_HEADER),
+                                                                                                    Integer.parseInt(request.queryParams("limit")))
+                );
+            }
+            catch (Exception e) {
+                return controllerMapper.writeValueAsString(returnError(e.getMessage()));
+            }
+        });
     }
 }
