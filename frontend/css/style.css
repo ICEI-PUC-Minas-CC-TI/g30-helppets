@@ -1,0 +1,77 @@
+:root {
+    --height-header: 100px;
+    --height-footer: 50px;
+    --header-footer-color: #c6c39a;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    background-color: #fcf6d2;
+    width: 100vw;
+    height: calc(100vh - (var(--height-footer) + var(--height-header))); /* Get "true" vh size */
+}
+
+header {
+    width: 100%;
+    height: var(--height-header);
+    background-color: var(--header-footer-color);
+    border-radius: 0px 0px 5% 5%;
+}
+
+main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+footer {
+    width: 100%;
+    margin-top: auto;
+    height: var(--height-footer);
+    background-color: var(--header-footer-color)
+}
+
+#register-login-box {
+    width: 25%;
+    background-color: white;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50%;
+    align-self: center;
+    justify-content: center;
+    min-width: 300px;
+}
+
+#register-login-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 75%;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#register-login-form input[type="text"] {
+    width: 50%;
+    border-radius: 10px;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+#register-login-form input[type="submit"] {
+    width: 50%;
+    border-radius: 10px;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+#change-register-login-form {
+    cursor: pointer;
+}
