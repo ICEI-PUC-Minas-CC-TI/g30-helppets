@@ -49,21 +49,19 @@ class ApiManager {
             mode: "cors",
             headers: {
                 "Authorization": auth
-            },
-            body: JSON.stringify(formdata)
+            }
         });
 
         return response.json();
     }
 
     async deletePetById(auth, petid) {
-        const response = await fetch(this.#apiprefix.concat("pets/list?id=".concat(petid)), {
+        const response = await fetch(this.#apiprefix.concat("pets/delete?id=".concat(petid)), {
             method: "DELETE",
             mode: "cors",
             headers: {
                 "Authorization": auth
-            },
-            body: JSON.stringify(formdata)
+            }
         });
 
         return response.json();
@@ -89,8 +87,7 @@ class ApiManager {
             mode: "cors",
             headers: {
                 "Authorization": auth
-            },
-            body: JSON.stringify(formdata)
+            }
         });
 
         return response.json();
@@ -116,8 +113,7 @@ class ApiManager {
             mode: "cors",
             headers: {
                 "Authorization": auth
-            },
-            body: JSON.stringify(formdata)
+            }
         });
 
         return response.json();

@@ -12,8 +12,13 @@ function returnLoginForm() {
     emailInput.type = "text";
     passwordInput.type = "text";
 
+    emailInput.placeholder = "Email";
+    passwordInput.placeholder = "Senha";
+    
+
     submitInput.type = "submit";
     submitInput.value = "Enviar";
+    
 
     changeFormP.id = "change-register-login-form";
     changeFormP.innerText = "Criar conta";
@@ -27,8 +32,9 @@ function returnLoginForm() {
         try{
             token = await api.login(
                 {
+                    nome: nomeInput.value,
                     email: emailInput.value,
-                    senha: passwordInput.value
+                    senha: passwordInput.value,
                 }
             );
         
@@ -49,7 +55,57 @@ function returnLoginForm() {
 }
 
 function returnRegisterForm() {
+    const titleP = document.createElement("p"),
+    emailInput = document.createElement("input"),
+    nomeInput = document.createElement("input"),
+    passwordInput = document.createElement("input"),
+    submitInput = document.createElement("input"),
+    changeFormP = document.createElement("p");
     
+    titleP.innerText = "Criar conta";
+
+    nomeInput.type = "text";
+    emailInput.type = "text";
+    passwordInput.type = "text";
+
+    nomeInput.placeholder = "Nome";
+    emailInput.placeholder = "Email";
+    passwordInput.placeholder = "Senha";
+
+    submitInput.type = "submit";
+    submitInput.value = "Enviar";
+
+    changeFormP.id = "change-register-login-form";
+    changeFormP.innerText = "Entrar";
+
+    changeFormP.addEventListener("click", () => {
+            changeForm(true);
+        }
+    );
+    
+    submitInput.addEventListener("click", async () => {
+        try{
+            token = await api.register(
+                {
+                    email: emailInput.value,
+                    senha: passwordInput.value
+                }
+            );
+        
+            if (token.token != null) {
+                document.cookie = "token=".concat(token.token).concat(";");
+                location.reload();
+            }
+            else {
+                Utilites.popupError(token);
+            }
+        }
+        catch(e) {
+            Utilites.popupError(e);
+        }
+    })
+
+    return [titleP, nomeInput, emailInput, passwordInput, submitInput, changeFormP];
 }
 
 function changeForm(isRegister) {
@@ -66,6 +122,8 @@ function changeForm(isRegister) {
 }
 
 (() => {
+    Utilites.setupFooterContent();
+
     const registerLoginForm = document.querySelector("#register-login-form");
 
     registerLoginForm.addEventListener("submit", (e) => {
