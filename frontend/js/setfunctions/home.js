@@ -25,6 +25,28 @@ function returnPetContainer(petData = {}) {
     return petContainerDiv;
 }
 
+function returnVacinaHomeContainer(vacinaData) {
+    const vacinaHomeContainerDiv = document.createElement("div"),
+          vacinaNomeP = document.createElement("p"),
+          vacinaDataP = document.createElement("p"),
+          vacinaDescricaoP = document.createElement("p"),
+          vacinaStatusP = document.createElement("p");
+
+    vacinaNomeP.innerText = "Nome: " + vacinaData["nome"];
+    vacinaDataP.innerText = "Data: " + vacinaData["data"];
+    vacinaDescricaoP.innerText = "Descrição: " + vacinaData["descricao"];
+    vacinaStatusP.innerText = "Status: " + (Boolean(vacinaData["tomou"]) ? "Tomou" : "Não tomou");
+    
+    vacinaHomeContainerDiv.appendChild(vacinaNomeP);
+    vacinaHomeContainerDiv.appendChild(vacinaDataP);
+    vacinaHomeContainerDiv.appendChild(vacinaDescricaoP);
+    vacinaHomeContainerDiv.appendChild(vacinaStatusP);
+
+    vacinaHomeContainerDiv.className = "vacina-home-container";
+
+    return vacinaHomeContainerDiv;
+}
+
 (async () => {
     Utilites.setupFooterContent();
     
@@ -43,17 +65,22 @@ function returnPetContainer(petData = {}) {
     })
 
     adicionarVacinasHomeButton.addEventListener("click", () => {
-        // TODO: add redirect
+        Utilites.generateInsertVacina();
     })
 
     const listPetsContainer = document.querySelector("#list-pet-container"),
-          deletePetContainer = document.querySelector("#delete-pet-container");
+          deletePetContainer = document.querySelector("#delete-pet-container"),
+          vacinasHome = document.querySelector("#vacinas-home");
+          queryParam = new URLSearchParams(),
+          petId = queryParam.get("petId");
 
     const token = document.cookie.split(";")[0].split("=")[1];
 
-    //const pets = await api.listRegisteredPets(token, 10); -> Later uncoment this.
+    // const pets = await api.listRegisteredPets(token, 10); -> Later uncoment this.
 
-    pets = [{nome: "teste", raca: "teste", petsId: -1}, {nome: "teste", raca: "teste", petsId: -1},
+    // const vacinas = await api.returnVacinasByPetId(token, petId, 10); -> Later uncoment this.
+
+    const pets = [{nome: "teste", raca: "teste", petsId: -1}, {nome: "teste", raca: "teste", petsId: -1},
     {nome: "teste", raca: "teste", petsId: -1}, {nome: "teste", raca: "teste", petsId: -1},
     {nome: "teste", raca: "teste", petsId: -1}, {nome: "teste", raca: "teste", petsId: -1},
     {nome: "teste", raca: "teste", petsId: -1}, {nome: "teste", raca: "teste", petsId: -1},
@@ -61,7 +88,26 @@ function returnPetContainer(petData = {}) {
     {nome: "teste", raca: "teste", petsId: -1}, {nome: "teste", raca: "teste", petsId: -1},
     {nome: "teste", raca: "teste", petsId: -1}]
 
-    pets.forEach(p => {
+    const vacinas = [
+        {nome: "teste", data: "teste", tomou: false, descricao: "descricao"},
+        {nome: "teste", data: "teste", tomou: true, descricao: "descricao"},
+        {nome: "teste", data: "teste", tomou: false, descricao: "descricao"},
+        {nome: "teste", data: "teste", tomou: true, descricao: "descricao"},
+        {nome: "teste", data: "teste", tomou: false, descricao: "descricao"},
+        {nome: "teste", data: "teste", tomou: true, descricao: "descricao"},
+        {nome: "teste", data: "teste", tomou: false, descricao: "descricao"},
+        {nome: "teste", data: "teste", tomou: true, descricao: "descricao"},
+        {nome: "teste", data: "teste", tomou: false, descricao: "descricao"},
+        {nome: "teste", data: "teste", tomou: true, descricao: "descricao"}
+];
+
+    vacinas.forEach((v) => {
+        const vacinaHomeContainer = returnVacinaHomeContainer(v);
+
+        vacinasHome.appendChild(vacinaHomeContainer);
+    });
+
+    pets.forEach((p) => {
         const petContainer = returnPetContainer(p);
         
         const listPetContainerFirst = petContainer.cloneNode(true);
@@ -69,8 +115,13 @@ function returnPetContainer(petData = {}) {
         const deletePetContainerFirst = petContainer.cloneNode(true);
 
         deletePetContainerFirst.addEventListener("click", async () => {
-            await api.deletePetById(token, p.petsId);
-            location.reload();
+            try{
+                await api.deletePetById(token, p.petsId);
+                location.reload();
+            }
+            catch(e) {
+                Utilites.popupError(e);
+            }
         });
 
         listPetContainerFirst.addEventListener("click", () => {

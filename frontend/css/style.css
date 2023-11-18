@@ -204,6 +204,46 @@ footer p {
     flex-wrap: wrap;
 }
 
+#calendar-month::first-letter {
+    text-transform: uppercase;
+}
+
+#center-element-div {
+    width: 50vw;
+    height: calc(90vh - (var(--height-footer) + var(--height-header)));
+    margin-left: 25vw;
+    margin-top: 5vh;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    background-color: white;
+    z-index: 1;
+    flex-direction: column;
+    align-items: center;
+    min-width: 183px;
+}
+
+#inserir-vacina-form {
+    height: 50%;
+    min-height: 194px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#delete-center-element-div { 
+    align-self:flex-start;
+    width: 50px;
+    height: 50px;
+}
+
+.blur-effect {
+    filter: blur(10px);
+    pointer-events: none;
+}
+
 .calendar-item {
     border: 1px solid black;
     display: flex;
@@ -261,9 +301,5 @@ footer p {
 
 .vacina-home-container:last-child {
     border: 0px;
-}
-
-#calendar-month::first-letter {
-    text-transform: uppercase;
 }
 
