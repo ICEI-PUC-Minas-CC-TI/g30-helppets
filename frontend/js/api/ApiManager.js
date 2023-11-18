@@ -118,4 +118,6 @@ class ApiManager {
 
         return response.json();
     }
+
+    async listEventsByDate(auth, limit, date) {}
 }

@@ -1,8 +1,77 @@
 class Utilites {
     static popupError(e) {
-        const centerElementDiv = this.generateCenterElement();
+        const centerElementDiv = this.generateCenterElement(),
+              errorH1 = document.createElement("h1");
 
-        console.log(e);
+        errorH1.className = "red";
+
+        errorH1.innerText = "Erro: " + e;
+
+        centerElementDiv.appendChild(errorH1);
+    }
+
+    static generateInsertPopupEvents(api) {
+        const centerElementDiv = this.generateCenterElement(),
+              dataInput = document.createElement("input"),
+              descricaoTextarea = document.createElement("textarea"),
+              insertEventButton = document.createElement("button");
+
+        dataInput.type = "date";
+        descricaoTextarea.placeholder = "Inserir descrição";
+
+        insertEventButton.innerHTML = "Inserir evento"
+
+        insertEventButton.addEventListener("click", async (e) => {
+            const token = document.cookie.split(";")[0].split("=")[1];
+
+            try {
+                await api.insertEvent(token, {
+                    data: dataInput.value,
+                    descricao: descricaoTextarea.value
+                });
+            }
+            catch(e) {
+                this.popupError(e);
+            }
+        });
+
+        centerElementDiv.appendChild(dataInput);
+        centerElementDiv.appendChild(descricaoTextarea);
+        centerElementDiv.appendChild(insertEventButton);
+    }
+
+    static generatePopupEvents(events, api) {
+        const centerElementDiv = this.generateCenterElement(),
+              eventsContainerDiv = document.createElement("div"),
+              inserirEventoH1 = document.createElement("h1");
+
+        eventsContainerDiv.id = "events-container";
+
+        inserirEventoH1.innerText = "Inserir evento";
+
+        inserirEventoH1.addEventListener("click", (e) => {
+            this.generateInsertPopupEvents(api);
+        });
+
+        events.forEach((ev) => {
+            const eventContainerDiv = document.createElement("div"),
+                  dataP = document.createElement("p"),
+                  descricaoP = document.createElement("p");
+
+            dataP.innerText = "Data: " + ev["data"];
+            descricaoP.innerText = "Descrição: " + ev["descricao"];
+
+            eventContainerDiv.appendChild(dataP);
+            eventContainerDiv.appendChild(descricaoP);
+            
+            eventContainerDiv.className = "event-container";
+
+            eventsContainerDiv.appendChild(eventContainerDiv);
+        });
+
+        centerElementDiv.appendChild(inserirEventoH1);
+
+        centerElementDiv.appendChild(eventsContainerDiv);
     }
 
     static generateInsertVacina(api = ApiManager) {

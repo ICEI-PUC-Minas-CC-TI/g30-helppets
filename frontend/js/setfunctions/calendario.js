@@ -4,6 +4,8 @@ function createCalendarLayout(data = Date) {
     let toUse,
         daysInMonth;
 
+    const token = document.cookie.split(";")[0].split("=")[1];
+
     const month = data.getMonth(),
         year = data.getFullYear();
 
@@ -45,7 +47,26 @@ function createCalendarLayout(data = Date) {
         calendarItem.appendChild(dataP);
         
         calendarItem.addEventListener("click", () => {
-            // TODO
+            try {
+                // const events = api.listEventsByDate(token, 10, toUse); -> uncoment this
+
+                const events = [
+                    {data: "data", descricao: "descricao"},
+                    {data: "data", descricao: "descricao"},
+                    {data: "data", descricao: "descricao"},
+                    {data: "data", descricao: "descricao"},
+                    {data: "data", descricao: "descricao"},
+                    {data: "data", descricao: "descricao"},
+                    {data: "data", descricao: "descricao"},
+                    {data: "data", descricao: "descricao"},
+                    {data: "data", descricao: "descricao"}
+                ]
+
+                Utilites.generatePopupEvents(events, api);
+            }
+            catch(e) {
+                Utilites.popupError(e);
+            }
         });
 
         calendar.appendChild(calendarItem);
@@ -61,7 +82,7 @@ function createCalendarLayout(data = Date) {
 
     const calendarMonth = document.querySelector("#calendar-month");
 
-    calendarMonth.innerText = toUse.toLocaleString("pt-br", {month: "long"});
+    calendarMonth.innerText = toUse.toLocaleString("pt-br", {month: "long"}) + "/" + year;
 
     const prevMonthCalendarButton = document.querySelector("#prev-month-calendar"),
           nextMonthCalendarButton = document.querySelector("#next-month-calendar");
