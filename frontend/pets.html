@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pets</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/api/ApiManager.js"></script>
+    <script src="js/utilities/Utilites.js"></script>
+    <script src="js/setfunctions/pets.js" defer></script>
+</head>
+<body>
+    <header>
+        <div id="header-home">
+            <p id="calendario-button">Calendario</p>
+            <p id="home-button">Inicio</p>
+        </div>
+    </header>
+    <main>
+        <div></div>
+        <div id="pets-add-pet-container">
+            <form id="pets-add-pet-form">
+                <h1>Inserir pet</h1>
+                <input type="text" placeholder="Nome" id="pets-add-pet-nome" name="nome"/>
+                <input type="text" placeholder="Raça" id="pets-add-pet-raca" name="raca"/>
+                <input type="file"  accept="image/png, image/jpeg"
+                id="pets-add-pet-imagem"  name="foto"/>
+                <input type="submit" value="Enviar" id="pets-add-pet-submit"/>
+            </form>
+        </div>
+        <div></div>
+    </main>
+    <footer></footer>
+</body>
+</html>
