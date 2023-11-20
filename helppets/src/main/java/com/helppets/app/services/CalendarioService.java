@@ -12,14 +12,12 @@ import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.time.Instant;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Date;
+import java.util.*;
 
 public class CalendarioService {
     private final CalendarioDAO calendarioDAO = new CalendarioDAO();
@@ -30,7 +28,7 @@ public class CalendarioService {
     public CalendarioService() throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {}
 
     public Map<String, Object> insertCalendario(String jwtAuth, Map<String, Object> body) throws SQLException,
-                                                                                                 JsonProcessingException, InvalidObjectException {
+            JsonProcessingException, InvalidObjectException, ParseException {
         try {
             if (!authUtils.isJwtValid(jwtAuth)) {
                 throw new InvalidObjectException("Invalid jwt");
@@ -108,13 +106,38 @@ public class CalendarioService {
         }
     }
 
-    private CalendarioModel convertMapToCalendarioModel(Map<String, Object> data, Integer usuarioId) {
+    public Map<String, Object> getCalendarioByUserIdAndDay(String jwtAuth, String day, int limit) throws InvalidObjectException,
+            JsonProcessingException, SQLException {
+        try {
+            if (!authUtils.isJwtValid(jwtAuth)) {
+                throw new InvalidObjectException("Invalid jwt");
+            }
+
+            DecodedJWT decodedJWT = authUtils.decodeJWT(jwtAuth);
+            Map<String, Object> jwtData = authUtils.getPayloadJwt(decodedJWT);
+
+            List<CalendarioModel> calendarioModel = calendarioDAO.getByUserIdAndDay((Integer) jwtData.get(USER_ID),
+                    day,
+                    limit);
+
+            Map<String, Object> toReturn = new HashMap<>();
+
+            toReturn.put("event", calendarioModel);
+
+            return toReturn;
+
+        }
+        catch (Exception e) {
+            logger.error("getCalendarioByUserIdAndDay({}, {}, {}) - Exception: {}", jwtAuth, day, limit, e.getMessage());
+            throw e;
+        }
+    }
+
+    private CalendarioModel convertMapToCalendarioModel(Map<String, Object> data, Integer usuarioId) throws ParseException {
         CalendarioModel calendarioModel = new CalendarioModel();
 
         String dataString = (String) data.get("data");
-        TemporalAccessor ta = DateTimeFormatter.ISO_INSTANT.parse(dataString);
-        Instant i = Instant.from(ta);
-        Date d = new Date(Date.from(i).getTime());
+        Date d = new Date(new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(dataString).getTime());
 
         calendarioModel.setData(d);
         calendarioModel.setDescricao((String) data.get("descricao"));

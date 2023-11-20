@@ -46,21 +46,9 @@ function createCalendarLayout(data = Date) {
 
         calendarItem.appendChild(dataP);
         
-        calendarItem.addEventListener("click", () => {
+        calendarItem.addEventListener("click", async () => {
             try {
-                // const events = api.listEventsByDate(token, 10, toUse); -> uncoment this
-
-                const events = [
-                    {data: "data", descricao: "descricao"},
-                    {data: "data", descricao: "descricao"},
-                    {data: "data", descricao: "descricao"},
-                    {data: "data", descricao: "descricao"},
-                    {data: "data", descricao: "descricao"},
-                    {data: "data", descricao: "descricao"},
-                    {data: "data", descricao: "descricao"},
-                    {data: "data", descricao: "descricao"},
-                    {data: "data", descricao: "descricao"}
-                ]
+                const events = await api.listEvents(token, toUse.toISOString().split("T")[0], 10);
 
                 Utilites.generatePopupEvents(events, api);
             }
@@ -99,7 +87,19 @@ function createCalendarLayout(data = Date) {
 }
 
 (() => {
+    const token = document.cookie.split(";")[0].split("=")[1];
+
+    if (token == null) location.replace("/");
+
     Utilites.setupFooterContent();
+
+    document.querySelector("#home-button").addEventListener("click", () => {
+        location.replace("/home")
+    });
+
+    document.querySelector("#add-pet-button").addEventListener("click", () => {
+        location.replace("/pets")
+    })
 
     const currentData = new Date();
 

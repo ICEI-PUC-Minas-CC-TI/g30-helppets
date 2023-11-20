@@ -7,6 +7,14 @@ const api = new ApiManager();
 
     Utilites.setupFooterContent();
 
+    document.querySelector("#calendario-button").addEventListener("click", () => {
+        location.replace("/calendario");
+    });
+
+    document.querySelector("#home-button").addEventListener("click", () => {
+        location.replace("/home");
+    });
+
     const formAddPet = document.querySelector("#pets-add-pet-form");
 
     formAddPet.addEventListener("submit", async (e) => {

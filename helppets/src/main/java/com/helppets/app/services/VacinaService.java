@@ -73,7 +73,7 @@ public class VacinaService {
         VacinaModel vacina = new VacinaModel();
 
         String dataString = (String) map.get("data");
-        Date d = new java.sql.Date(new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH).parse(dataString).getTime());
+        Date d = new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(dataString).getTime());
 
         vacina.setData(d);
         vacina.setNome((String) map.get("nome"));

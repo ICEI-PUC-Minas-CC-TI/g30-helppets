@@ -178,7 +178,8 @@ public class ApiController extends GenericController {
                     return controllerMapper.writeValueAsString(returnError("Invalid token"));
                 }
 
-                return controllerMapper.writeValueAsString(calendarioService.getCalendariosByUserId(request.headers(AUTHORIZATION_HEADER),
+                return controllerMapper.writeValueAsString(calendarioService.getCalendarioByUserIdAndDay(request.headers(AUTHORIZATION_HEADER),
+                                                                                                    request.queryParams("day"),
                                                                                                     Integer.parseInt(request.queryParams("limit")))
                 );
             }

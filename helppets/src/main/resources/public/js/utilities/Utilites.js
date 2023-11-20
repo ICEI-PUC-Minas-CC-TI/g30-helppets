@@ -27,10 +27,13 @@ class Utilites {
             const token = document.cookie.split(";")[0].split("=")[1];
 
             try {
-                await api.insertEvent(token, {
+                const apiReturn = await api.insertEvent(token, {
                     data: dataInput.value,
                     descricao: descricaoTextarea.value
                 });
+
+                if (apiReturn["error"]) this.popupError(apiReturn["error"]);
+                else location.reload();
             }
             catch(e) {
                 this.popupError(e);
@@ -55,12 +58,12 @@ class Utilites {
             this.generateInsertPopupEvents(api);
         });
 
-        events.forEach((ev) => {
+        events["event"].forEach((ev) => {
             const eventContainerDiv = document.createElement("div"),
                   dataP = document.createElement("p"),
                   descricaoP = document.createElement("p");
 
-            dataP.innerText = "Data: " + ev["data"];
+            dataP.innerText = "Data: " + new Date(ev["data"]).toISOString().split("T")[0].replaceAll("-", "/");
             descricaoP.innerText = "Descrição: " + ev["descricao"];
 
             eventContainerDiv.appendChild(dataP);

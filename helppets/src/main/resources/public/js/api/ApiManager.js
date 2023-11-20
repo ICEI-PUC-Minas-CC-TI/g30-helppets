@@ -107,8 +107,8 @@ class ApiManager {
         return response.json();
     }
     
-    async listEvents(auth, limit) {
-        const response = await fetch(this.#apiprefix.concat("calendario/list?limit=".concat(limit)), {
+    async listEvents(auth, day, limit) {
+        const response = await fetch(this.#apiprefix.concat("calendario/list?day=".concat(day).concat("&limit=").concat(limit)), {
             method: "GET",
             mode: "cors",
             headers: {
@@ -118,6 +118,4 @@ class ApiManager {
 
         return response.json();
     }
-
-    async listEventsByDate(auth, limit, date) {}
 }

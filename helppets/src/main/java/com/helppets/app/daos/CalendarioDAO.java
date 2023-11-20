@@ -3,6 +3,7 @@ package com.helppets.app.daos;
 import com.helppets.app.models.CalendarioModel;
 import com.helppets.app.models.UsuarioModel;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -147,6 +148,29 @@ public class CalendarioDAO extends DAO{
         makeConnection();
 
         ResultSet resultSet = returnStatement().executeQuery("SELECT * FROM calendario WHERE usuario_usuarioId =" + userId + " LIMIT " + limiter);
+
+        ArrayList<CalendarioModel> eventos = new ArrayList<>();
+
+        while (resultSet.next()) {
+            eventos.add(parseRowToDto(resultSet));
+        }
+
+        closeConnection();
+        resultSet.close();
+
+        return eventos;
+    }
+
+    public List<CalendarioModel> getByUserIdAndDay(int userId, String day, int limiter) throws SQLException {
+        makeConnection();
+
+        PreparedStatement preparedStatement = returnPreparedStatement("SELECT * FROM calendario WHERE usuario_usuarioId=? AND data=? LIMIT ?");
+
+        preparedStatement.setInt(1, userId);
+        preparedStatement.setDate(2, Date.valueOf(day));
+        preparedStatement.setInt(3, limiter);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
 
         ArrayList<CalendarioModel> eventos = new ArrayList<>();
 
