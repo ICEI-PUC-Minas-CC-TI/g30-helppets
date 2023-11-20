@@ -202,6 +202,8 @@ footer p {
     width: 100%;
     justify-content: space-around;
     flex-wrap: wrap;
+    align-items: center;
+    padding: 10px;
 }
 
 #calendar-month::first-letter {

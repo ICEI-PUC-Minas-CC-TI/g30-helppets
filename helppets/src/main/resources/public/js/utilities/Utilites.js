@@ -181,6 +181,7 @@ class Utilites {
 
         deleteCenterElementDiv.alt = "Retornar";
         deleteCenterElementDiv.id = "delete-center-element-div"
+        deleteCenterElementDiv.src = "/images/arrow_back.svg";
 
         deleteCenterElementDiv.addEventListener("click", (e) => {
             mainElement.className = "";

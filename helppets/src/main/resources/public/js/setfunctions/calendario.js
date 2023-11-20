@@ -48,7 +48,9 @@ function createCalendarLayout(data = Date) {
         
         calendarItem.addEventListener("click", async () => {
             try {
-                const events = await api.listEvents(token, toUse.toISOString().split("T")[0], 10);
+                const events = await api.listEvents(token,
+                    year.toString().concat("-").concat((month + 1).toString()).concat("-").concat((d + 1).toString()),
+                    10);
 
                 Utilites.generatePopupEvents(events, api);
             }
