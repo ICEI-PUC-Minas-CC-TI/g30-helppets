@@ -46,8 +46,8 @@ public class AuthUtils {
 
             String userPath = System.getProperty("user.dir");
 
-            File privateKeyFile = new File(userPath.concat("/src/main/resources/private/rsaKeys/privateJwt.key"));
-            File publicKeyFile = new File(userPath.concat("/src/main/resources/private/rsaKeys/publicJwt.key"));
+            File privateKeyFile = new File(userPath.concat("/helppets/src/main/resources/private/rsaKeys/privateJwt.key"));
+            File publicKeyFile = new File(userPath.concat("/helppets/src/main/resources/private/rsaKeys/publicJwt.key"));
 
             byte[] privateKeyBytes = Files.readAllBytes(privateKeyFile.toPath());
             byte[] publicKeyBytes = Files.readAllBytes(publicKeyFile.toPath());

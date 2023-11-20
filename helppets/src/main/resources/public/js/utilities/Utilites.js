@@ -5,7 +5,9 @@ class Utilites {
 
         errorH1.className = "red";
 
-        errorH1.innerText = "Erro: " + e;
+        errorH1.innerText = "Erro: ".concat(e.error == null ? e : e.error);
+
+        console.log(e);
 
         centerElementDiv.appendChild(errorH1);
     }
@@ -74,13 +76,7 @@ class Utilites {
         centerElementDiv.appendChild(eventsContainerDiv);
     }
 
-    static generateInsertVacina(api = ApiManager) {
-        const queryParam = new URLSearchParams();
-
-        //if (!queryParam.has("petId")) return;
-
-        const petId = queryParam.get("petId");
-
+    static generateInsertVacina(api = ApiManager, petId) {
         const centerElementDiv = this.generateCenterElement(),
               titleH1 = document.createElement("h1"),
               formInserirVacina = document.createElement("form"),
@@ -141,11 +137,14 @@ class Utilites {
                 
                 formData["pets_petsId"] = petId;
 
-                console.log(formData);
-                
-                await api.insertVacina(token, formData);
-                
-                location.reload();
+                try {
+                    const apiReturn = await api.insertVacina(token, formData);
+                    if (apiReturn["error"]) this.popupError(apiReturn["error"]);
+                    else location.reload();
+                }
+                catch (e) {
+                    this.popupError(e);
+                }
             }
             catch(e) {
                 this.popupError(e);

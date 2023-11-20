@@ -6,7 +6,7 @@ CREATE SCHEMA HelpPets;
 
 CREATE TABLE HelpPets.Usuario(UsuarioID SERIAL, Nome varchar(255) NOT NULL, Email varchar(255) NOT NULL UNIQUE, Senha BYTEA NOT NULL, CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'), PRIMARY KEY(UsuarioID));
 
-CREATE TABLE HelpPets.Pets(PetsID SERIAL, Nome varchar(255) NOT NULL, Raca varchar(255) NOT NULL, Foto BYTEA, Usuario_UsuarioID int NOT NULL, PRIMARY KEY(PetsID), FOREIGN KEY(Usuario_UsuarioID) REFERENCES HelpPets.Usuario(UsuarioID));
+CREATE TABLE HelpPets.Pets(PetsID SERIAL, Nome varchar(255) NOT NULL, Raca varchar(255) NOT NULL, Foto VARCHAR(10485760), Usuario_UsuarioID int NOT NULL, PRIMARY KEY(PetsID), FOREIGN KEY(Usuario_UsuarioID) REFERENCES HelpPets.Usuario(UsuarioID));
 
 CREATE TABLE HelpPets.Vacina(VacinaID SERIAL, Nome varchar(255) NOT NULL, Data DATE NOT NULL, Descricao varchar(300), Tomou smallint NOT NULL, Pets_PetsID int NOT NULL, PRIMARY KEY(VacinaID), FOREIGN KEY(Pets_PetsID) REFERENCES HelpPets.Pets(PetsID));
 

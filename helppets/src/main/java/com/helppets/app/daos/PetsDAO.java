@@ -1,14 +1,22 @@
 package com.helppets.app.daos;
 
 import com.helppets.app.models.PetsModel;
+import com.helppets.app.models.VacinaModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PetsDAO extends DAO {
+    private final Logger logger = LoggerFactory.getLogger(PetsDAO.class);
+
+    private VacinaDAO vacinaDAO = new VacinaDAO();
+
     public PetsDAO() {
         super();
     }
@@ -23,7 +31,7 @@ public class PetsDAO extends DAO {
 
         statement.setString(1, pet.getNome());
         statement.setString(2, pet.getRaca());
-        statement.setBytes(3, pet.getFoto());
+        statement.setString(3, pet.getFoto());
         statement.setInt(4, pet.getUsuario_usuarioId());
 
         ResultSet resultSet = statement.executeQuery();
@@ -100,7 +108,7 @@ public class PetsDAO extends DAO {
 
         statement.setString(1, pet.getNome());
         statement.setString(2, pet.getRaca());
-        statement.setBytes(3, pet.getFoto());
+        statement.setString(3, pet.getFoto());
         statement.setInt(4, id);
 
         ResultSet resultSet = statement.executeQuery();
@@ -121,7 +129,7 @@ public class PetsDAO extends DAO {
             petsModel.setRaca(resultSet.getString("raca"));
             petsModel.setNome(resultSet.getString("nome"));
             petsModel.setUsuario_usuarioId(resultSet.getInt("usuario_usuarioid"));
-            petsModel.setFoto(resultSet.getBytes("foto"));
+            petsModel.setFoto(resultSet.getString("foto"));
         }
         catch (Exception e) {
             logger.error("parseRowToDto - Exception: {}", e.getMessage());
@@ -152,6 +160,10 @@ public class PetsDAO extends DAO {
         PetsModel pet = null;
 
         makeConnection();
+
+        ArrayList<VacinaModel> deletedVacinas = vacinaDAO.deleteAllVacinasByPetId(id);
+
+        logger.info("deleteByIdAndUserId() - Deleted vacinas: {}", Arrays.toString(deletedVacinas.toArray()));
 
         ResultSet resultSet = returnStatement().executeQuery("DELETE FROM pets WHERE usuario_usuarioid=" + userId + " AND petsId=" + id + " RETURNING *");
 

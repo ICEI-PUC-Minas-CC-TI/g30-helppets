@@ -30,6 +30,8 @@ public class SetupRoutes {
                 for (Method m : methods) {
                     try {
                         if (m.isAnnotationPresent(Route.class)) {
+                            System.out.println("setupRoutes() - Initializing route: ".concat(m.getName()));
+
                             m.invoke(controller);
                         }
                     } catch (Exception e) {
@@ -40,14 +42,14 @@ public class SetupRoutes {
             }
         }
         catch (Exception e) {
-            System.out.println("setupRoutes() - Exception: ".concat(e.getCause().toString()));
+            System.out.println("setupRoutes() - Exception: ".concat(e.toString()));
         }
     }
 
     private static List<Class<?>> getClasssesInPackage(String currentPackage) throws ClassNotFoundException {
         List<Class<?>> classes = new ArrayList<>();
 
-        String controllersPath = System.getProperty("user.dir").concat("/src/main/java/com/helppets/app/controllers");
+        String controllersPath = System.getProperty("user.dir").concat("/helppets/src/main/java/com/helppets/app/controllers");
 
         String[] malformatedControllersPath = controllersPath.split("/");
         boolean hasInitPackage = false;
@@ -67,6 +69,8 @@ public class SetupRoutes {
         String controllerPackage = controllerPackageBuilder.toString();
 
         File dir = new File(controllersPath);
+
+        System.out.printf("getClasssesInPackage(%s) - dir: %s", currentPackage, dir);
 
         if (dir.isDirectory()) {
             File[] files = dir.listFiles();

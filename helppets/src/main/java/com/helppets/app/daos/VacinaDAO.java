@@ -137,6 +137,23 @@ public class VacinaDAO extends DAO {
         return vacina;
     }
 
+    public ArrayList<VacinaModel> deleteAllVacinasByPetId(int petId) throws SQLException {
+        makeConnection();
+
+        ResultSet resultSet = returnStatement().executeQuery("DELETE FROM vacina WHERE pets_petsId=" + petId + " RETURNING *");
+
+        ArrayList<VacinaModel> vacinas = new ArrayList<>();
+
+        while (resultSet.next()) {
+            vacinas.add(parseRowToDto(resultSet));
+        }
+
+        resultSet.close();
+        closeConnection();
+
+        return vacinas;
+    }
+
     public List<VacinaModel> listByPetsId(int petsId, int limiter) throws SQLException {
         makeConnection();
 

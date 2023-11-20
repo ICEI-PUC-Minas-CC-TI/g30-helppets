@@ -2,6 +2,7 @@ package com.helppets.app.services;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.helppets.app.daos.PetsDAO;
 import com.helppets.app.models.PetsModel;
 import com.helppets.app.utils.AuthUtils;
@@ -13,12 +14,10 @@ import java.io.InvalidObjectException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class PetsService {
+    private final ObjectMapper mapper = new ObjectMapper();
     private final String USER_ID = "usuarioId";
     private final AuthUtils authUtils = new AuthUtils();
     private final PetsDAO petsDAO = new PetsDAO();
@@ -29,6 +28,8 @@ public class PetsService {
 
     public Map<String, Object> insertPet(String jwtAuth, Map<String, Object> body) throws JsonProcessingException, InvalidObjectException, SQLException {
         try {
+            logger.info("insertPet({}, {}) - Started", jwtAuth, body);
+
             if (!authUtils.isJwtValid(jwtAuth)) {
                 throw new InvalidObjectException("Invalid jwt");
             }
@@ -43,6 +44,8 @@ public class PetsService {
             Map<String, Object> petMap = new HashMap<>();
 
             petMap.put("pet", pet);
+
+            logger.info("insertPet({}, {}) - petMap: {}", jwtAuth, body, petMap);
 
             return petMap;
 
@@ -68,6 +71,8 @@ public class PetsService {
 
             toReturn.put("pets", pets);
 
+            logger.info("listRegisteredPetsWithLimit({}, {}) - toReturn: {}", jwtAuth, limiter, toReturn);
+
             return toReturn;
         }
         catch (Exception e) {
@@ -91,6 +96,8 @@ public class PetsService {
 
             toReturn.put("deleted", pet);
 
+            logger.info("deleteById({}, {}) - toReturn: {}", jwtAuth, id, toReturn);
+
             return toReturn;
         }
         catch (Exception e) {
@@ -99,15 +106,17 @@ public class PetsService {
         }
     }
 
-    private PetsModel convertMapToPetModel(Map<String, Object> map, Integer usuarioId) {
+    private PetsModel convertMapToPetModel(Map<String, Object> map, Integer usuarioId) throws JsonProcessingException {
         PetsModel pet = new PetsModel();
+
+        logger.info("convertMapToPetModel({}, {}) - Started", map, usuarioId);
 
         pet.setRaca((String) map.get("raca"));
         pet.setNome((String) map.get("nome"));
         pet.setUsuario_usuarioId(usuarioId);
 
         if (map.containsKey("foto") && Objects.nonNull(map.get("foto"))) {
-            pet.setFoto((byte[]) map.get("foto"));
+            pet.setFoto((String) map.get("foto"));
         }
 
         return pet;

@@ -3,11 +3,13 @@ const api = new ApiManager();
 (() => {
     const token = document.cookie.split(";")[0].split("=")[1];
 
+    if (token == null) location.replace("/");
+
     Utilites.setupFooterContent();
 
     const formAddPet = document.querySelector("#pets-add-pet-form");
 
-    formAddPet.addEventListener("submit", (e) => {
+    formAddPet.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const formElements = {};
@@ -26,16 +28,17 @@ const api = new ApiManager();
 
             reader.readAsDataURL(image["files"][0]);
             
-            reader.onload = () => {
+            reader.onload = async () => {
                 formElements["foto"] = reader.result.split(",")[1];
-                api.insertPet(token, formElements);
-                image.value = "";
+                await api.insertPet(token, formElements);
             }
         }
         else {
             formElements["foto"] = null;
             console.log(formElements);
-            api.insertPet(token, formElements);
+            await api.insertPet(token, formElements);
         }
+
+        location.replace("/home");
     });
 })();

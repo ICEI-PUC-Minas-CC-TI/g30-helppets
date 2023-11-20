@@ -1,157 +1,327 @@
-html{
+:root {
+    --height-header: 100px;
+    --height-footer: 50px;
+    --header-footer-color: #c6c39a;
+}
 
+* {
+    margin: 0px;
+    padding: 0px;
+}
 
-    --body-color:#FFFCFF ;
-  
-    --header-color:#d36c6c;
-  
-    --header-button:#92a1d1;
-  
-    --color-weekdays: #247BA0;
-    
-    --box-shadow: #CBD4C2;
-  
-    --hover: #e8faed;
-  
-    --current-day:#e8f4fa;
-  
-    --event-color: #58bae4;
-  
-    --modal-event: #e8f4fa;
-  
-  
-   --color-day:white;
-    
-  
-  }
-  
-  
-  
-  body {
-    display: flex;
-    margin-top: 50px;
-    justify-content: center;
-    background-color: var(--body-color);
-  }
-  button {
-    width: 75px;
-    cursor: pointer;
-    box-shadow: 0px 0px 2px gray;
-    border: none;
-    outline: none;
-    padding: 5px;
-    border-radius: 5px;
-    color: white;
-  }
-  
-  #header {
-    padding: 10px;
-    color: var(--header-color) ;
-    font-size: 26px;
-    font-family: sans-serif;
+body {
+    background-color: #fcf6d2;
+    width: 100vw;
+    height: calc(100vh - (var(--height-footer) + var(--height-header))); /* Get "true" vh size */
+}
+
+header {
+    width: 100%;
+    height: var(--height-header);
+    background-color: var(--header-footer-color);
+    border-radius: 0px 0px 5% 5%;
+}
+
+main {
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: space-between;
-  }
-  #header button {
-    background-color:var(--header-button);
-  }
-  #container {
-    width: 770px;
-  }
-  #weekdays {
-    width: 100%;
-    display: flex;
-    color: var(--color-weekdays) ;
-  }
-  #weekdays div {
-    width: 100px;
-    padding: 10px;
-  }
-  #calendar {
-    width: 100%;
-    margin: auto;
-    display: flex;
     flex-wrap: wrap;
-  }
-  .day {
-    width: 100px;
+    overflow: scroll;
+}
+
+footer {
+    width: 100%;
+    margin-top: auto;
+    height: var(--height-footer);
+    background-color: var(--header-footer-color);
+    display: flex;
+    align-items: center;
+}
+
+footer p {
     padding: 10px;
-    height: 100px;
-    cursor: pointer;
-    box-sizing: border-box;
-    background-color: var(--color-day);
-    margin: 5px;
-    box-shadow: 0px 0px 3px var(--box-shadow);
+}
+
+#register-login-box {
+    width: 25%;
+    background-color: white;
+    border-radius: 50px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    border-radius: 15%;
-  }
-  .day:hover {
-    background-color: var(--hover);
-  }
-  
-  .day + #currentDay {
-    background-color:var(--current-day);
-  }
-  .event {
-    font-size: 10px;
-    padding: 3px;
-    background-color: var(--event-color);
-    color: white;
-    border-radius: 5px;
-    max-height: 55px;
-    overflow: hidden;
-  }
-  .padding {
-    cursor: default !important;
-    background-color: var(--body-color) !important;
-    box-shadow: none !important;
-  }
-  #newEventModal, #deleteEventModal {
-    display: none;
-    z-index: 20;
-    padding: 25px;
-    background-color: var(--modal-event);
-    box-shadow: 0px 0px 3px black;
-    border-radius: 5px;
-    width: 350px;
-    top: 100px;
-    left: calc(50% - 175px);
-    position: absolute;
-    font-family: sans-serif;
-  }
-  #eventTitleInput {
-    padding: 10px;
+    align-items: center;
+    height: 50%;
+    align-self: center;
+    justify-content: center;
+    min-width: 300px;
+    border: 1px solid black;
+}
+
+#register-login-form {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 25px;
-    border-radius: 3px;
-    outline: none;
-    border: none;
-    box-shadow: 0px 0px 3px gray;
-  }
-  #eventTitleInput.error {
-    border: 2px solid red;
-  }
-  #cancelButton, #deleteButton {
-    background-color: var(--header-color);
-  }
-  #saveButton, #closeButton {
-    background-color: var(--header-button);
-  }
-  #eventText {
-    font-size: 14px;
-  }
-  #modalBackDrop {
-    display: none;
-    top: 0px;
-    left: 0px;
-    z-index: 10;
-    width: 100vw;
-    height: 100vh;
+    height: 75%;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#register-login-form input[type="text"] {
+    width: 50%;
+    border-radius: 10px;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+#register-login-form input[type="submit"] {
+    width: 50%;
+    border-radius: 10px;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+#change-register-login-form {
+    cursor: pointer;
+}
+
+#header-home {
+    height: 100%;
+    display: flex;
+    align-items:center;
+    flex-wrap: wrap;
+}
+
+#header-home p{
+    padding: 10px;
+}
+
+#pet-info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#pet-image-home {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    border: 1px solid black;
+}
+
+#vacinas-home {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: scroll;
+}
+
+#adicionar-vacinas-home {
+    padding: 5px;
+}
+
+#calendar-wrap {
+    width: 90%;
+    height: 90%;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#calendar-days {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+#calendar-days p {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+}
+
+#calendar {
+    width: 100%;
+    height: 50%;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 25px;
+    display: grid;
+    grid-template: "a a a a a a a";
+    overflow: hidden;
+    flex:1;
+}
+
+#pets-add-pet-container {
+    width: 50%;
+    height: 90%;
+    background-color: white;
+    align-self: center;
+    border: 1px solid black;
+    border-radius: 25px;
+    min-width: 192px;
+}
+
+#pets-add-pet-form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#pets-add-pet-form input[type="text"] {
+    width: 50%;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 50px;
+}
+
+#pets-add-pet-form input[type="submit"] {
+    margin-top: 25px;
+    width: 100px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 25px;
+}
+
+#pets-add-pet-imagem {
+    color: transparent;
+    width: 75px;
+}
+
+#change-month-calendar {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+#calendar-month::first-letter {
+    text-transform: uppercase;
+}
+
+#center-element-div {
+    width: 50vw;
+    height: calc(90vh - (var(--height-footer) + var(--height-header)));
+    margin-left: 25vw;
+    margin-top: 5vh;
+    display: flex;
+    justify-content: center;
     position: absolute;
-    background-color: rgba(0,0,0,0.8);
-  }
-  
-  
+    background-color: white;
+    z-index: 1;
+    flex-direction: column;
+    align-items: center;
+    min-width: 183px;
+}
+
+#inserir-vacina-form {
+    height: 50%;
+    min-height: 194px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#delete-center-element-div { 
+    align-self:flex-start;
+    width: 50px;
+    height: 50px;
+}
+
+#events-container {
+    width: 100%;
+    display: flex;
+    overflow-y: scroll;
+    flex-direction: column;
+    align-items: center;
+}
+
+#events-container:last-child {
+    border: 0px;
+}
+
+.red {
+    color: red;
+}
+
+.event-container {
+    width: 50%;
+    border-bottom: 1px solid black;
+    padding: 10px;
+}
+
+.blur-effect {
+    filter: blur(10px);
+    pointer-events: none;
+}
+
+.calendar-item {
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gray {
+    background-color: gray;
+}
+
+.widget-home {
+    align-self: center;
+    margin: 25px;
+    height: 90%;
+    background-color: white;
+    min-width: 250px;
+    width: 25%;
+    border-radius: 25px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+}
+
+.widget-home h1 {
+    margin: auto;
+    font-size: 32px;
+}
+
+.pet-container-div {
+    display: flex;
+    align-self: center;
+    width: 75%;
+    padding: 10px;
+    border-bottom: 1px solid black;
+}
+
+.pet-container-div img {
+    margin-right: 10px;
+    width: 50px;
+    border-radius: 100%;
+    border: 1px solid black;
+}
+
+.pet-container-div:last-child {
+    border: 0px;
+}
+
+.vacina-home-container {
+    width: 75%;
+    border-bottom: 1px solid black;
+    padding: 10px;
+}
+
+.vacina-home-container:last-child {
+    border: 0px;
+}
+

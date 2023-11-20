@@ -12,11 +12,14 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class VacinaService {
@@ -26,7 +29,7 @@ public class VacinaService {
 
     public VacinaService() throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {}
 
-    public Map<String, Object> insertVacina(String jwtAuth, Map<String, Object> body) throws InvalidObjectException, SQLException {
+    public Map<String, Object> insertVacina(String jwtAuth, Map<String, Object> body) throws InvalidObjectException, SQLException, ParseException {
         try {
             if (!authUtils.isJwtValid(jwtAuth)) {
                 throw new InvalidObjectException("Invalid jwt");
@@ -66,17 +69,15 @@ public class VacinaService {
         }
     }
 
-    private VacinaModel convertMapToVacinaModel(Map<String, Object> map) {
+    private VacinaModel convertMapToVacinaModel(Map<String, Object> map) throws ParseException {
         VacinaModel vacina = new VacinaModel();
 
         String dataString = (String) map.get("data");
-        TemporalAccessor ta = DateTimeFormatter.ISO_INSTANT.parse(dataString);
-        Instant i = Instant.from(ta);
-        Date d = new Date(Date.from(i).getTime());
+        Date d = new java.sql.Date(new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH).parse(dataString).getTime());
 
         vacina.setData(d);
         vacina.setNome((String) map.get("nome"));
-        vacina.setTomou((Boolean) map.get("tomou"));
+        vacina.setTomou(Boolean.valueOf((String) map.get("tomou")));
         vacina.setDescricao((String) map.get("descricao"));
         vacina.setPets_petsId((Integer) map.get("pets_petsId"));
 

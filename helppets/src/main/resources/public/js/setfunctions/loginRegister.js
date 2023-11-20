@@ -32,7 +32,6 @@ function returnLoginForm() {
         try{
             token = await api.login(
                 {
-                    nome: nomeInput.value,
                     email: emailInput.value,
                     senha: passwordInput.value,
                 }
@@ -85,20 +84,13 @@ function returnRegisterForm() {
     
     submitInput.addEventListener("click", async () => {
         try{
-            token = await api.register(
+            const userData = await api.register(
                 {
+                    nome: nomeInput.value,
                     email: emailInput.value,
                     senha: passwordInput.value
                 }
             );
-        
-            if (token.token != null) {
-                document.cookie = "token=".concat(token.token).concat(";");
-                location.reload();
-            }
-            else {
-                Utilites.popupError(token);
-            }
         }
         catch(e) {
             Utilites.popupError(e);
@@ -122,6 +114,10 @@ function changeForm(isRegister) {
 }
 
 (() => {
+    const token = document.cookie.split(";")[0].split("=")[1];
+
+    if (token != null) location.replace("/home");
+
     Utilites.setupFooterContent();
 
     const registerLoginForm = document.querySelector("#register-login-form");
