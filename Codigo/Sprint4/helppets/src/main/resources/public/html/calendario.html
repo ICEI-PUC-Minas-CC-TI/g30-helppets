@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario</title>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <script src="/js/api/ApiManager.js"></script>
+    <script src="/js/utilities/Utilites.js"></script>
+    <script src="/js/setfunctions/calendario.js" defer></script>
+</head>
+<body>
+    <header>
+        <div id="header-home">
+            <p id="home-button">Inicio</p>
+            <p id="add-pet-button">Adicionar pet</p>
+        </div>
+    </header>
+    <main>
+        <div></div>
+        <div id="calendar-wrap">
+            <h1 id="calendar-month"></h1>
+            <div id="calendar-days">
+                <p>Domingo</p>
+                <p>Segunda</p>
+                <p>Terça</p>
+                <p>Quarta</p>
+                <p>Quinta</p>
+                <p>Sexta</p>
+                <p>Sabado</p>
+            </div>
+            <div id="calendar">
+            </div>
+            <div id="change-month-calendar">
+                <img src="/images/arrow_back.svg" alt="Anterior" id="prev-month-calendar"/>
+                <img src="/images/arrow_forward.svg" alt="Proximo" id="next-month-calendar"/>
+            </div>
+        </div>
+        <div></div>
+    </main>
+    <footer></footer>
+</body>
+</html>
