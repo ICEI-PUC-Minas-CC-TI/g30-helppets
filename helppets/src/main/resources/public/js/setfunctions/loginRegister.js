@@ -91,6 +91,9 @@ function returnRegisterForm() {
                     senha: passwordInput.value
                 }
             );
+
+            if (!userData["error"]) location.reload();
+            else Utilites.popupError(userData["error"]);
         }
         catch(e) {
             Utilites.popupError(e);

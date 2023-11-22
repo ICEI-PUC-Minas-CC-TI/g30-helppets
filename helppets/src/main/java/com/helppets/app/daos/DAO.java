@@ -27,9 +27,12 @@ abstract public class DAO {
             String databaseHost = dotenv.get("DATABASE_HOST");
             String databaseName = dotenv.get("DATABASE_NAME");
             String schemaName = dotenv.get("DATABASE_SCHEMA");
+            String databasePort = dotenv.get("DATABASE_PORT");
 
             String url = "jdbc:postgresql://"
                     .concat(databaseHost)
+                    .concat(":")
+                    .concat(databasePort)
                     .concat("/")
                     .concat(databaseName)
                     .concat("?currentSchema=")

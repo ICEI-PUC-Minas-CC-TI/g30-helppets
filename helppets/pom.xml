@@ -49,7 +49,7 @@
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
-      <version>42.6.0</version>
+      <version>42.7.0</version>
     </dependency>
 
     <dependency>
@@ -165,7 +165,7 @@
         <artifactId>maven-shade-plugin</artifactId>
         <version>3.5.1</version>
         <configuration>
-          <minimizeJar>true</minimizeJar>
+          <!--<minimizeJar>true</minimizeJar>-->
           <filters>
             <filter>
               <artifact>*:*</artifact>
