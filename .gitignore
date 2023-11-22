@@ -1,0 +1,5 @@
+.idea
+helppets/target/*
+helppets/src/main/resources/private/rsaKeys/*.key
+helppets/src/main/resources/private/dotenv/.env
+helppets/dependency-reduced-pom.xml
