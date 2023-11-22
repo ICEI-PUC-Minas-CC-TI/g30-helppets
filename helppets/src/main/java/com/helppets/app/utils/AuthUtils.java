@@ -11,12 +11,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cdimascio.dotenv.Dotenv;
+import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import spark.utils.IOUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -36,6 +40,7 @@ public class AuthUtils {
     private final Logger logger = LoggerFactory.getLogger(AuthUtils.class);
     private final ObjectMapper mapper = new ObjectMapper();
 
+    @SneakyThrows
     public AuthUtils() throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {
         try {
             Dotenv dotenv = Dotenv.configure()
@@ -44,13 +49,11 @@ public class AuthUtils {
 
             passwordSalt = dotenv.get("PASSWORD_SALT");
 
-            String userPath = System.getProperty("user.dir");
+            InputStream privateKeyFile = AuthUtils.class.getResourceAsStream("/private/rsaKeys/privateJwt.key");
+            InputStream publicKeyFile = AuthUtils.class.getResourceAsStream("/private/rsaKeys/publicJwt.key");
 
-            File privateKeyFile = new File(userPath.concat("/helppets/src/main/resources/private/rsaKeys/privateJwt.key"));
-            File publicKeyFile = new File(userPath.concat("/helppets/src/main/resources/private/rsaKeys/publicJwt.key"));
-
-            byte[] privateKeyBytes = Files.readAllBytes(privateKeyFile.toPath());
-            byte[] publicKeyBytes = Files.readAllBytes(publicKeyFile.toPath());
+            byte[] privateKeyBytes = IOUtils.toByteArray(privateKeyFile);
+            byte[] publicKeyBytes = IOUtils.toByteArray(publicKeyFile);
 
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
 

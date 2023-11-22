@@ -3,22 +3,18 @@ package com.helppets.routerannotations.functionalities;
 import com.helppets.routerannotations.annotations.Controller;
 import com.helppets.routerannotations.annotations.Route;
 
-import java.io.File;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import org.slf4j.Logger;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class SetupRoutes {
 
-    public static void  setupRoutes() throws InstantiationException, IllegalAccessException, InvocationTargetException, ClassNotFoundException, NoSuchMethodException {
+    public static void setupRoutes() throws InstantiationException, IllegalAccessException, InvocationTargetException, ClassNotFoundException, NoSuchMethodException {
         try {
-            String currentPackage = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE).getCallerClass().getCanonicalName();
-
-            List<Class<?>> classList = getClasssesInPackage("helppets.src.main.java." + currentPackage);
+            List<Class<?>> classList = getClasssesInPackage();
 
             for (Class<?> controllerClass : classList) {
                 String routePrefix = controllerClass.getAnnotation(Controller.class).prefix();
@@ -40,54 +36,22 @@ public class SetupRoutes {
                     }
                 }
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("setupRoutes() - Exception: ".concat(e.toString()));
         }
     }
 
-    private static List<Class<?>> getClasssesInPackage(String currentPackage) throws ClassNotFoundException {
+    private static List<Class<?>> getClasssesInPackage() throws ClassNotFoundException {
         List<Class<?>> classes = new ArrayList<>();
 
-        String controllersPath = System.getProperty("user.dir").concat("/helppets/src/main/java/com/helppets/app/controllers");
+        InputStream controllersClassDefinition = SetupRoutes.class.getResourceAsStream("/private/controllers_definition/controllers.con");
 
-        String[] malformatedControllersPath = controllersPath.split("/");
-        boolean hasInitPackage = false;
+        String controllersString = new BufferedReader(
+                new InputStreamReader(
+                        controllersClassDefinition, StandardCharsets.UTF_8))
+                .lines().collect(Collectors.joining("\n"));
 
-        StringBuilder controllerPackageBuilder = new StringBuilder();
-
-        for (String s : malformatedControllersPath) {
-            if (s.equalsIgnoreCase("com")) {
-                hasInitPackage = true;
-            }
-
-            if (hasInitPackage) {
-                controllerPackageBuilder.append(s).append(".");
-            }
-        }
-
-        String controllerPackage = controllerPackageBuilder.toString();
-
-        File dir = new File(controllersPath);
-
-        System.out.printf("getClasssesInPackage(%s) - dir: %s", currentPackage, dir);
-
-        if (dir.isDirectory()) {
-            File[] files = dir.listFiles();
-
-            if (Objects.nonNull(files)) {
-                for (File file : files) {
-                    if (file.isFile() && file.getName().endsWith(".java")) {
-                        String className = controllerPackage + file.getName().substring(0, file.getName().length() - 5);
-                        Class<?> controllerClass = Class.forName(className);
-
-                        if (controllerClass.isAnnotationPresent(Controller.class)) {
-                            classes.add(controllerClass);
-                        }
-                    }
-                }
-             }
-        }
+        for (String c : controllersString.split("\n")) classes.add(Class.forName(c));
 
         return classes;
     }
