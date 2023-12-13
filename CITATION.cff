@@ -1,31 +1,28 @@
 cff-version: 1.0.1
 message: Please cite this software using these metadata.
-title: 
+title: Helppets
 authors:
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names:
+  - family-names: Braga de Campos Tinoco
+    given-names: Arthur
+  - family-names: Rodrigues Vasconcellos Melo
+    given-names: Júlia 
+  - family-names: Henrique Duarte Silva 
+    given-names: Mateus 
+  - family-names: Rodrigues Bastos Aguiar 
+    given-names: Matheus 
   - name-suffix: Professor
     affiliation: PUC Minas
-    family-names: 
-    given-names: 
+    family-names: Wladmir 
+    given-names: Cardoso Brandao 
   - name-suffix: Professor
     affiliation: PUC Minas
-    family-names: 
-    given-names: 
+    family-names: Soares Vieira de Vasconcelos
+    given-names: Amália 
 keywords:
-  - 
-  - 
+  - Pets
+  - Gerenciamento
+  - Calendario
 repository-code: 
 license: CC-BY-4.0
 version: 1.0.0
-date-released: 2022-07-14
+date-released: 2022-12-13
