@@ -22,7 +22,7 @@ keywords:
   - Pets
   - Gerenciamento
   - Calendario
-repository-code: 
+repository-code: https://github.com/ICEI-PUC-Minas-CC-TI/plmg-cc-2023-2-ti2-g30-helppets
 license: CC-BY-4.0
 version: 1.0.0
-date-released: 2022-12-13
+date-released: 2023-12-12 (tinhamos esquecido do repository-code)
