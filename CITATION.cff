@@ -5,19 +5,19 @@ authors:
   - family-names: Braga de Campos Tinoco
     given-names: Arthur
   - family-names: Rodrigues Vasconcellos Melo
-    given-names: Júlia 
-  - family-names: Henrique Duarte Silva 
-    given-names: Mateus 
-  - family-names: Rodrigues Bastos Aguiar 
-    given-names: Matheus 
+    given-names: Júlia
+  - family-names: Henrique Duarte Silva
+    given-names: Mateus
+  - family-names: Rodrigues Bastos Aguiar
+    given-names: Matheus
   - name-suffix: Professor
     affiliation: PUC Minas
-    family-names: Wladmir 
-    given-names: Cardoso Brandao 
+    family-names: Wladmir
+    given-names: Cardoso Brandao
   - name-suffix: Professor
     affiliation: PUC Minas
     family-names: Soares Vieira de Vasconcelos
-    given-names: Amália 
+    given-names: Amália
 keywords:
   - Pets
   - Gerenciamento
@@ -25,4 +25,4 @@ keywords:
 repository-code: https://github.com/ICEI-PUC-Minas-CC-TI/plmg-cc-2023-2-ti2-g30-helppets
 license: CC-BY-4.0
 version: 1.0.0
-date-released: 2023-12-12 (tinhamos esquecido do repository-code)
+date-released: 2023-12-12
